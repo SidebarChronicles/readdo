@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Readdo — The book was just the start.</title>
+  <meta name="description" content="Readdo turns your last non-fiction book into a personalized 4-week action plan — with weekly nudges that adapt when life gets busy.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <script async src="https://tally.so/widgets/embed.js"></script>
+  <style>
+    :root {
+      --amber:      #E8651A;
+      --navy:       #1A2B4A;
+      --paper:      #F7F4EF;
+      --paper-dark: #EDE9E2;
+
+      --text-hero: clamp(3rem, 5vw + 1rem, 6rem);
+      --text-h2:   clamp(1.75rem, 3vw + 0.5rem, 3rem);
+      --text-body: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+
+      --space-section: clamp(5rem, 8vw, 10rem);
+      --radius: 0.5rem;
+      --ease:   cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--paper);
+      color: var(--navy);
+      font-size: var(--text-body);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 2rem;
+      background: var(--paper);
+      border-bottom: 1px solid var(--paper-dark);
+    }
+
+    .logo {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--navy);
+      text-decoration: none;
+    }
+    .logo span { color: var(--amber); }
+
+    /* ── Buttons ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.75rem 1.75rem;
+      border-radius: var(--radius);
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: transform 200ms var(--ease), box-shadow 200ms var(--ease),
+                  background 200ms var(--ease), color 200ms var(--ease);
+      text-decoration: none;
+      background: none;
+    }
+
+    .btn-primary { background: var(--amber); color: #fff; }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(232, 101, 26, 0.35);
+    }
+
+    .btn-outline { color: var(--navy); border-color: var(--navy); }
+    .btn-outline:hover { background: var(--navy); color: var(--paper); }
+
+    /* ── Container ── */
+    .container { max-width: 72rem; margin: 0 auto; padding: 0 2rem; }
+
+    /* ── Hero ── */
+    .hero {
+      padding: var(--space-section) 2rem;
+      text-align: center;
+    }
+
+    .hero-eyebrow {
+      display: inline-block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: var(--text-hero);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      color: var(--navy);
+      max-width: 18ch;
+      margin: 0 auto 1.5rem;
+    }
+    .hero h1 em { font-style: italic; color: var(--amber); }
+
+    .hero-sub {
+      font-size: clamp(1.05rem, 1.5vw + 0.4rem, 1.3rem);
+      color: #4B5B7A;
+      max-width: 44rem;
+      margin: 0 auto 2.5rem;
+      line-height: 1.6;
+    }
+
+    .cta-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .microcopy { font-size: 0.825rem; color: #9CA3AF; }
+
+    /* ── Problem ── */
+    .problem {
+      background: var(--navy);
+      color: var(--paper);
+      padding: var(--space-section) 2rem;
+    }
+
+    .problem .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(3rem, 5vw, 6rem);
+      align-items: start;
+    }
+
+    .problem-text h2 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: var(--text-h2);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: 1.5rem;
+    }
+
+    .problem-text p {
+      color: rgba(247, 244, 239, 0.72);
+      margin-bottom: 1rem;
+      line-height: 1.7;
+    }
+    .problem-text p strong { color: var(--paper); }
+
+    .quotes-stack { display: flex; flex-direction: column; gap: 1.25rem; }
+
+    blockquote {
+      background: rgba(255, 255, 255, 0.06);
+      border-left: 3px solid var(--amber);
+      padding: 1.25rem 1.5rem;
+      border-radius: 0 var(--radius) var(--radius) 0;
+    }
+    blockquote p {
+      font-family: 'Fraunces', Georgia, serif;
+      font-style: italic;
+      font-size: 1.05rem;
+      line-height: 1.5;
+      color: var(--paper);
+      margin-bottom: 0.6rem;
+    }
+    blockquote cite {
+      font-size: 0.775rem;
+      color: rgba(247, 244, 239, 0.45);
+      font-style: normal;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    /* ── Solution ── */
+    .solution { padding: var(--space-section) 2rem; }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: clamp(3rem, 5vw, 5rem);
+    }
+    .section-header h2 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: var(--text-h2);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: var(--navy);
+      margin-bottom: 0.75rem;
+    }
+    .section-header p { color: #6B7280; max-width: 36rem; margin: 0 auto; }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .feature-card {
+      background: #fff;
+      border: 1px solid var(--paper-dark);
+      border-radius: 1rem;
+      padding: 2rem;
+      transition: transform 200ms var(--ease), box-shadow 200ms var(--ease);
+    }
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(26, 43, 74, 0.1);
+    }
+
+    .feature-icon { font-size: 2rem; display: block; margin-bottom: 1rem; }
+
+    .feature-card h3 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 0.625rem;
+      line-height: 1.2;
+    }
+    .feature-card p { color: #6B7280; font-size: 0.95rem; line-height: 1.65; }
+
+    /* ── How it works ── */
+    .how {
+      background: var(--paper-dark);
+      padding: var(--space-section) 2rem;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    .step { text-align: center; padding: 1rem; }
+
+    .step-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+      background: var(--amber);
+      color: #fff;
+      font-family: 'Fraunces', Georgia, serif;
+      font-weight: 700;
+      font-size: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .step h3 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 0.5rem;
+    }
+    .step p { color: #6B7280; font-size: 0.95rem; line-height: 1.6; }
+
+    /* ── Second CTA ── */
+    .second-cta {
+      padding: var(--space-section) 2rem;
+      text-align: center;
+    }
+
+    .second-cta h2 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: var(--text-h2);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--navy);
+      margin-bottom: 1rem;
+    }
+
+    .second-cta .lead {
+      color: #6B7280;
+      max-width: 36rem;
+      margin: 0 auto 2.5rem;
+    }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--navy);
+      color: rgba(247, 244, 239, 0.45);
+      padding: 2rem;
+      text-align: center;
+      font-size: 0.85rem;
+    }
+    footer a { color: rgba(247, 244, 239, 0.65); text-decoration: none; }
+    footer a:hover { color: var(--paper); }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .problem .container,
+      .features,
+      .steps { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <a class="logo" href="#">Read<span>do</span></a>
+    <button class="btn btn-outline" style="padding:0.5rem 1.25rem;font-size:0.875rem;"
+      data-tally-open="TALLY_FORM_ID"
+      data-tally-emoji-text="📚"
+      data-tally-emoji-animation="wave"
+      data-tally-width="400">
+      Join waitlist
+    </button>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <span class="hero-eyebrow">Launching soon</span>
+    <h1>Finish the book.<br><em>Finally</em> do the thing.</h1>
+    <p class="hero-sub">
+      Readdo turns your last non-fiction book into a personalized 4-week action plan —
+      with weekly nudges that adapt when life gets busy.
+    </p>
+    <div class="cta-group">
+      <button class="btn btn-primary"
+        data-tally-open="TALLY_FORM_ID"
+        data-tally-emoji-text="📚"
+        data-tally-emoji-animation="wave"
+        data-tally-width="400">
+        Join the waitlist
+      </button>
+      <span class="microcopy">Free. No spam. Unsubscribe anytime.</span>
+    </div>
+  </section>
+
+  <!-- Problem -->
+  <section class="problem">
+    <div class="container">
+      <div class="problem-text">
+        <h2>Sound familiar?</h2>
+        <p>You finished Atomic Habits six months ago. You highlighted half the book. You even told a friend it was life-changing.</p>
+        <p><strong>Nothing changed.</strong></p>
+        <p>Readwise resurfaces your highlights. Blinkist gives you a shorter book. But nobody closes the gap between <em>understanding something</em> and <em>actually doing it.</em></p>
+        <p>That gap is where every good book goes to die.</p>
+      </div>
+      <div class="quotes-stack">
+        <blockquote>
+          <p>"Atomic Habits has been on my nightstand for six months and I still haven't done anything with it."</p>
+          <cite>r/productivity</cite>
+        </blockquote>
+        <blockquote>
+          <p>"Ever finish a non-fiction book and immediately forget everything? Here's an idea to fix that."</p>
+          <cite>r/SomebodyMakeThis</cite>
+        </blockquote>
+        <blockquote>
+          <p>"What's one book that genuinely rewired the way you think?" — 764 people answered. Almost none described a behavior that changed.</p>
+          <cite>r/productivity</cite>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- Solution -->
+  <section class="solution">
+    <div class="container">
+      <div class="section-header">
+        <h2>Readdo closes the gap.</h2>
+        <p>The book gave you the ideas. Readdo gives you the plan.</p>
+      </div>
+      <div class="features">
+        <div class="feature-card">
+          <span class="feature-icon">📋</span>
+          <h3>A plan made for your life</h3>
+          <p>Import any non-fiction book and answer 5 questions about your routine. Get a 4-week implementation plan that actually fits your week — not a generic summary.</p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">🔁</span>
+          <h3>Weekly check-ins that adapt</h3>
+          <p>A 2-minute weekly reflection updates your plan automatically. Busy week? The plan adjusts. No guilt, no starting over — just forward.</p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">📖</span>
+          <h3>A log of what actually changed</h3>
+          <p>Track outcomes, not highlights. See which books moved the needle and which ones sounded good but didn't stick.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="how">
+    <div class="container">
+      <div class="section-header">
+        <h2>Three steps. One plan.</h2>
+        <p>From finished book to first action in under 10 minutes.</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <h3>Import your book</h3>
+          <p>Add any non-fiction book by ISBN, Kindle highlights, or Goodreads. Readdo extracts the core arguments automatically.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <h3>Answer 5 quick questions</h3>
+          <p>Tell Readdo about your current routines and where you want to improve. Takes under 3 minutes.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <h3>Get your plan</h3>
+          <p>Receive a personalized 4-week plan with one clear action each week — and a gentle nudge to keep it moving.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Second CTA -->
+  <section class="second-cta">
+    <div class="container">
+      <h2>Be first to try it.</h2>
+      <p class="lead">Readdo is in early development. Join the waitlist to get access first — and help shape what gets built.</p>
+      <div class="cta-group">
+        <button class="btn btn-primary"
+          data-tally-open="TALLY_FORM_ID"
+          data-tally-emoji-text="📚"
+          data-tally-emoji-animation="wave"
+          data-tally-width="400">
+          Join the waitlist
+        </button>
+        <span class="microcopy">Free. No spam. Unsubscribe anytime.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2026 Readdo &middot; The book was just the start. &middot; <a href="mailto:hello@readdo.app">hello@readdo.app</a></p>
+  </footer>
+
+</body>
+</html>
