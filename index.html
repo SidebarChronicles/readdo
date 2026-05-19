@@ -5,10 +5,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Readdo — The book was just the start.</title>
   <meta name="description" content="Readdo turns your last non-fiction book into a personalized 4-week action plan — with weekly nudges that adapt when life gets busy.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Readdo — Finish the book. Finally do the thing." />
+  <meta property="og:description" content="Readdo turns any non-fiction book into a personalized 4-week action plan based on your actual life. Early waitlist open." />
+  <meta property="og:url" content="https://sidebarchronicles.github.io/readdo" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Readdo — Finish the book. Finally do the thing." />
+  <meta name="twitter:description" content="Turns any non-fiction book into a personalized 4-week action plan. Early waitlist open." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <script async src="https://tally.so/widgets/embed.js"></script>
+
+  <!-- UTM passthrough -->
+  <script>
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      var utmData = {};
+      ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'].forEach(function (k) {
+        if (params.get(k)) utmData[k] = params.get(k);
+      });
+      if (Object.keys(utmData).length) {
+        sessionStorage.setItem('utm_data', JSON.stringify(utmData));
+      }
+    })();
+  </script>
+
   <style>
     :root {
       --amber:      #E8651A;
